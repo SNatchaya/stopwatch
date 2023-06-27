@@ -1,0 +1,4 @@
+catkin_pkg==0.5.2
+paho_mqtt==1.6.1
+PyQt5==5.15.9
+rospy==1.16.0
