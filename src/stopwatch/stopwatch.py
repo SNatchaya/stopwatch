@@ -419,7 +419,7 @@ class StopWatch(qw.QMainWindow):
     
     def _press_button(self, stage):
         # Get the color of button
-        palette = self.button['start'].palette()
+        palette = self.lcd['time'].palette()
         if stage == 'start':
             # Stop timer
             if self.button['start'].text() == '&Stop':
@@ -557,5 +557,7 @@ class StopWatch(qw.QMainWindow):
 if __name__ == '__main__':
 
     app = qw.QApplication(sys.argv)
+    # Set to fusion style that it allow palette to work
+    app.setStyle('Fusion')
     ex = StopWatch()
     sys.exit(app.exec_())

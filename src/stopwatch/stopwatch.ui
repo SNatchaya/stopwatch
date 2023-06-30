@@ -1043,9 +1043,9 @@
               <colorrole role="ButtonText">
                <brush brushstyle="SolidPattern">
                 <color alpha="255">
-                 <red>255</red>
+                 <red>0</red>
                  <green>255</green>
-                 <blue>255</blue>
+                 <blue>254</blue>
                 </color>
                </brush>
               </colorrole>
@@ -1099,9 +1099,9 @@
               <colorrole role="ButtonText">
                <brush brushstyle="SolidPattern">
                 <color alpha="255">
-                 <red>255</red>
+                 <red>0</red>
                  <green>255</green>
-                 <blue>255</blue>
+                 <blue>254</blue>
                 </color>
                </brush>
               </colorrole>
