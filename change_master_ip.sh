@@ -2,7 +2,7 @@
 
 bash_file='.bashrc'
 
-text='export ROS_HOSTNAME=http://'
+text='export ROS_MASTER_URI=http://'
 
 # Get the IP address of the master
 read -p "Enter the IP address of the master: " ip
