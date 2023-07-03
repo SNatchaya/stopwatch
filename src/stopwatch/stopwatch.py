@@ -36,7 +36,7 @@ def SaveFile(data:json, path:str, filename:str):
         json.dump(data, file)
 
 class SubscriberThread(QThread):
-    flag = pyqtSignal(int)
+    flag = pyqtSignal(str)
     def __init__(self, message_type:str='ros', host:str='localhost'):
         QThread.__init__(self)
         self.message_type   = message_type
@@ -53,7 +53,7 @@ class SubscriberThread(QThread):
             # Create ros node and ros subscriber
             rospy.init_node(self.client_name, anonymous=True)
             self.ros_rate   = rospy.Rate(1000)
-            self.subscriber = rospy.Subscriber(self.topic, Int32, self._callback)
+            self.subscriber = rospy.Subscriber(self.topic, String, self._callback)
         
         elif self.message_type == 'mqtt':
             print(self.host)
@@ -227,16 +227,25 @@ class StopWatch(qw.QMainWindow):
         self.subscriber.flag.connect(self._toggle_button)
         self.subscriber.start()
 
-    @pyqtSlot(int)
+    @pyqtSlot(str)
     def _toggle_button(self, flag):
-        if flag == 1:
-            self._press_button('start')
-        elif flag == 2:
-            self._press_button('lab')
-        elif flag == 3:
-            self._press_button('reset')
-        elif flag == 4:
+        # if flag == 1:
+        #     self._press_button('start')
+        # elif flag == 2:
+        #     self._press_button('lab')
+        # elif flag == 3:
+        #     self._press_button('reset')
+        # elif flag == 4:
+        #     self._save_file()
+        # elif flag == 5:
+        #     self._close_window()
+        if flag == 'close':
+            self._close_window()
+        elif flag == 'save':
             self._save_file()
+        else:
+            print(flag)
+            self._press_button(flag)
 
     def _config_lcd(self, lcd:object, lcd_type:str, digital_count=None) -> object:
 
@@ -420,7 +429,7 @@ class StopWatch(qw.QMainWindow):
     def _press_button(self, stage):
         # Get the color of button
         palette = self.lcd['time'].palette()
-        if stage == 'start':
+        if stage == 'start' or stage == 'stop':
             # Stop timer
             if self.button['start'].text() == '&Stop':
                 # Stop timer
@@ -544,15 +553,21 @@ class StopWatch(qw.QMainWindow):
 
         if self.file_count != 0:
             filename = filename + str(self.file_count)
-        elif any(self.mode == msg for msg in self.SUBSCRIBER_MSG_TYPE) and directory == None:
+        if directory == None:
+            directory = self.PATH + '/src/stopwatch/data'
+            self.save_path = directory
+        if any(self.mode == msg for msg in self.SUBSCRIBER_MSG_TYPE):
             directory = self.PATH + '/src/stopwatch/data'
             filename  = filename + '_' + self.mode
 
-        print(directory, filename)
+        print(f'Directory is {directory}')
+        print(f'Filename  is {filename}')
         SaveFile(self.recorded_time, directory, filename=filename)
 
         self.file_count += 1
     
+    def _close_window(self):
+        self.close()
 
 if __name__ == '__main__':
 
